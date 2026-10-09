@@ -48,8 +48,16 @@ export interface Adicional {
   readonly detallePrecio: string;
 }
 
+export interface Oficina {
+  readonly direccion: string;
+  readonly barrio: string;
+  readonly municipio: string;
+  readonly horario: string;
+}
+
 export interface Negocio {
   readonly nombre: string;
+  readonly oficina: Oficina;
   readonly lema: string;
   readonly promesa: string;
   readonly cobertura: readonly string[];

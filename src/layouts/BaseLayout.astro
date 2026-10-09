@@ -26,7 +26,13 @@ const jsonLd = {
   image: imagen.href,
   telephone: principal ? `+${principal.numero}` : undefined,
   areaServed: negocio.cobertura.map((municipio) => ({ '@type': 'City', name: `${municipio}, Valle del Cauca` })),
-  address: { '@type': 'PostalAddress', addressLocality: 'Sevilla', addressRegion: 'Valle del Cauca', addressCountry: 'CO' },
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: `${negocio.oficina.direccion}, ${negocio.oficina.barrio}`,
+    addressLocality: 'Sevilla',
+    addressRegion: 'Valle del Cauca',
+    addressCountry: 'CO',
+  },
 };
 ---
 

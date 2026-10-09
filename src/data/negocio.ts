@@ -8,6 +8,12 @@ import type { Adicional, Negocio, Plan, Servicio } from '../types/negocio';
 
 export const negocio: Negocio = {
   nombre: 'LinkNet',
+  oficina: {
+    direccion: 'Calle 54 #51-21',
+    barrio: 'Barrio El Carmen',
+    municipio: 'Sevilla, Valle del Cauca',
+    horario: 'Atención en horario de oficina',
+  },
   lema: 'Conectamos tu mundo, sin importar la distancia',
   promesa: 'Más que internet, somos tu aliado en tecnología',
   cobertura: ['Sevilla', 'Caicedonia'],
@@ -24,6 +30,12 @@ const WHATSAPP = negocio.telefonos.find((t) => t.whatsapp)?.numero ?? '573157888
 
 export function enlaceWhatsapp(mensaje: string): string {
   return `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(mensaje)}`;
+}
+
+/** Abre la direccion de la oficina en Google Maps (en el celular, en la app). */
+export function enlaceMapaOficina(): string {
+  const { direccion, municipio } = negocio.oficina;
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${direccion}, ${municipio}, Colombia`)}`;
 }
 
 export const servicios: readonly Servicio[] = [
