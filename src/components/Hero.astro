@@ -1,0 +1,372 @@
+---
+import Logo from './Logo.astro';
+import Icono from './Icono.astro';
+import { enlaceWhatsapp, negocio } from '../data/negocio';
+
+const VENTAJAS = ['Internet ilimitado', 'Instalación y configuración', 'Pagos por Nequi y Daviplata'] as const;
+const municipios = negocio.cobertura.join(' y ');
+---
+
+<section class="hero" id="inicio">
+  <div class="fondo" aria-hidden="true">
+    <span class="malla"></span>
+    <span class="brillo brillo-1"></span>
+    <span class="brillo brillo-2"></span>
+  </div>
+
+  <div class="contenedor rejilla">
+    <div class="texto">
+      <p class="etiqueta aparece" style="--d: 0ms">Internet rural · {municipios}</p>
+      <h1 class="aparece" style="--d: 120ms">
+        Conectamos tu mundo, <em>sin importar la distancia</em>
+      </h1>
+      <p class="bajada aparece" style="--d: 260ms">
+        Internet banda ancha ilimitado, cámaras y vigilancia para tu casa, finca o negocio en las veredas de {municipios}.
+      </p>
+      <div class="acciones aparece" style="--d: 400ms">
+        <a class="boton boton-marca" href={enlaceWhatsapp('Hola LinkNet, quiero internet en mi vereda. ¿Llegan hasta allá?')} target="_blank" rel="noopener">
+          <Icono nombre="whatsapp" />Quiero internet
+        </a>
+        <a class="boton boton-contorno" href="#planes">Ver planes <Icono nombre="flecha" /></a>
+      </div>
+      <ul class="ventajas aparece" style="--d: 540ms">
+        {VENTAJAS.map((v) => <li><Icono nombre="check" />{v}</li>)}
+      </ul>
+    </div>
+
+    <div class="visual aparece" style="--d: 200ms" aria-hidden="true">
+      <span class="onda"></span>
+      <span class="onda"></span>
+      <span class="onda"></span>
+      <span class="orbita orbita-1"><i></i></span>
+      <span class="orbita orbita-2"><i></i></span>
+      <div class="nucleo">
+        <Logo id="logo-hero" variante="simbolo" animado />
+      </div>
+      <span class="chip chip-1"><Icono nombre="wifi" />Banda ancha</span>
+      <span class="chip chip-2"><Icono nombre="camara" />Cámaras HD</span>
+      <span class="chip chip-3"><Icono nombre="vigilancia" />Vigilancia</span>
+    </div>
+  </div>
+
+  <svg class="ola" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 40c180 40 360 50 540 30S900 0 1080 10s270 40 360 50v30H0z" />
+  </svg>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    color: #fff;
+    background: var(--noche);
+    padding: clamp(56px, 8vw, 104px) 0 clamp(110px, 12vw, 160px);
+  }
+
+  .fondo {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .malla {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse at 70% 40%, #000 10%, transparent 70%);
+  }
+
+  .brillo {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(110px);
+    opacity: 0.32;
+    animation: deriva 14s ease-in-out infinite alternate;
+  }
+
+  .brillo-1 {
+    width: 520px;
+    height: 520px;
+    right: -120px;
+    top: -140px;
+    background: #f28c28;
+  }
+
+  .brillo-2 {
+    width: 420px;
+    height: 420px;
+    left: -160px;
+    bottom: -160px;
+    background: #2e9d3b;
+    opacity: 0.35;
+    animation-duration: 18s;
+  }
+
+  @keyframes deriva {
+    to {
+      transform: translate(-60px, 50px) scale(1.1);
+    }
+  }
+
+  .rejilla {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: clamp(32px, 5vw, 72px);
+    align-items: center;
+  }
+
+  .aparece {
+    animation: subir 900ms var(--salida) both;
+    animation-delay: var(--d);
+  }
+
+  @keyframes subir {
+    from {
+      opacity: 0;
+      transform: translateY(26px);
+    }
+  }
+
+  h1 {
+    margin-top: 20px;
+    font-size: clamp(40px, 6.2vw, 74px);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+  }
+
+  h1 em {
+    font-style: normal;
+    background: var(--degradado-marca);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: brillar 6s ease-in-out infinite;
+  }
+
+  @keyframes brillar {
+    50% {
+      background-position: 100% 0;
+    }
+  }
+
+  .bajada {
+    margin-top: 22px;
+    max-width: 560px;
+    font-size: clamp(17px, 1.6vw, 20px);
+    color: #c9d1e3;
+  }
+
+  .acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 34px;
+  }
+
+  .acciones .boton-contorno {
+    color: #fff;
+  }
+
+  .ventajas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 22px;
+    margin: 34px 0 0;
+    padding: 0;
+    list-style: none;
+    font-size: 15px;
+    color: #c9d1e3;
+  }
+
+  .ventajas li {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .ventajas :global(.icono) {
+    width: 18px;
+    height: 18px;
+    color: var(--verde-claro);
+  }
+
+  /* Visual: el logo emite señal en ondas y los servicios orbitan alrededor. */
+  .visual {
+    position: relative;
+    aspect-ratio: 1;
+    width: min(100%, 520px);
+    justify-self: center;
+    display: grid;
+    place-items: center;
+  }
+
+  .nucleo {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    width: 46%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #1d3461, #0f1f3d 70%);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 40px 80px -20px rgba(0, 0, 0, 0.6), inset 0 0 40px rgba(242, 140, 40, 0.15);
+    font-size: 46px;
+  }
+
+  .nucleo :global(.simbolo) {
+    width: 2.6em;
+  }
+
+  .onda {
+    position: absolute;
+    inset: 27%;
+    border-radius: 50%;
+    border: 2px solid rgba(246, 194, 30, 0.55);
+    animation: senal 3.6s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
+  }
+
+  .onda:nth-child(2) {
+    animation-delay: 1.2s;
+  }
+
+  .onda:nth-child(3) {
+    animation-delay: 2.4s;
+  }
+
+  @keyframes senal {
+    from {
+      transform: scale(1);
+      opacity: 0.9;
+    }
+    to {
+      transform: scale(2.15);
+      opacity: 0;
+    }
+  }
+
+  .orbita {
+    position: absolute;
+    inset: 8%;
+    border-radius: 50%;
+    border: 1px dashed rgba(255, 255, 255, 0.14);
+    animation: girar 26s linear infinite;
+  }
+
+  .orbita-2 {
+    inset: 18%;
+    animation-duration: 18s;
+    animation-direction: reverse;
+  }
+
+  .orbita i {
+    position: absolute;
+    top: -7px;
+    left: 50%;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--verde-claro);
+    box-shadow: 0 0 18px var(--verde-claro);
+  }
+
+  .orbita-2 i {
+    width: 11px;
+    height: 11px;
+    background: var(--celeste);
+    box-shadow: 0 0 16px var(--celeste);
+  }
+
+  @keyframes girar {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .chip {
+    position: absolute;
+    z-index: 3;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 650;
+    color: var(--tinta);
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: var(--sombra-fuerte);
+    animation: flotar-chip 5s ease-in-out infinite;
+  }
+
+  .chip :global(.icono) {
+    width: 18px;
+    height: 18px;
+    color: var(--naranja);
+  }
+
+  .chip-1 {
+    top: 12%;
+    left: 0;
+  }
+
+  .chip-2 {
+    top: 46%;
+    right: -4%;
+    animation-delay: -1.6s;
+  }
+
+  .chip-3 {
+    bottom: 10%;
+    left: 8%;
+    animation-delay: -3.2s;
+  }
+
+  @keyframes flotar-chip {
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .ola {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    width: 100%;
+    height: 70px;
+    fill: var(--fondo);
+  }
+
+  @media (max-width: 900px) {
+    .rejilla {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .visual {
+      width: min(78%, 320px);
+      margin-top: 12px;
+    }
+
+    .nucleo {
+      font-size: 34px;
+    }
+
+    .brillo-1 {
+      width: 320px;
+      height: 320px;
+      opacity: 0.22;
+    }
+
+    .chip {
+      font-size: 12px;
+      padding: 8px 12px;
+    }
+
+    .chip-2 {
+      right: -6%;
+    }
+  }
+</style>

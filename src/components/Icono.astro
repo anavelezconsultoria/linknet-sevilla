@@ -1,0 +1,47 @@
+---
+import type { IconoAdicional, IconoPlan, IconoServicio } from '../types/negocio';
+
+/** Iconos de linea propios (sin librerias): heredan el color del texto. */
+type IconoInterfaz = 'whatsapp' | 'llamar' | 'ubicacion' | 'pago' | 'check' | 'flecha';
+export type NombreIcono = IconoServicio | IconoAdicional | IconoPlan | IconoInterfaz;
+
+interface Props {
+  readonly nombre: NombreIcono;
+  readonly class?: string;
+}
+
+const { nombre, class: clase } = Astro.props;
+
+const TRAZOS: Record<Exclude<NombreIcono, 'whatsapp'>, string> = {
+  wifi: 'M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0M12 19.5h.01',
+  camara: 'M3 7h11l3-3h2v8h-2l-3-3H3zM6 9v6M4 18h6',
+  alquiler: 'M4 7h10l3-3h2v8h-2l-3-3H4zM15 15h5v5h-5zM17.5 15v-2',
+  vigilancia: 'M12 3l8 3v6c0 4.5-3.4 8.2-8 9-4.6-.8-8-4.5-8-9V6zM9 12l2 2 4-4',
+  drone: 'M9 10h6v4H9zM5 6a2 2 0 1 0 0 .01M19 6a2 2 0 1 0 0 .01M5 18a2 2 0 1 0 0 .01M19 18a2 2 0 1 0 0 .01M7 8l2 2M17 8l-2 2M7 16l2-2M17 16l-2-2',
+  kit: 'M3 5h8v5H3zM13 5h8v5h-8zM5 15h14v4H5zM7 10v5M17 10v5',
+  enlace: 'M5 21V9M5 9l-2-3M5 9l2-3M19 21V9M19 9l-2-3M19 9l2-3M9 12a4 4 0 0 1 6 0M10.5 15a2 2 0 0 1 3 0',
+  ups: 'M7 3h10v18H7zM13 7l-3 5h4l-3 5',
+  mantenimiento: 'M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z',
+  telefono: 'M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1z',
+  solar: 'M3 14l2-8h14l2 8zM3 14h18M8 6l-1 8M12 6v8M16 6l1 8M12 14v5M8 21h8',
+  hogar: 'M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6',
+  seguridad: 'M12 3l8 3v6c0 4.5-3.4 8.2-8 9-4.6-.8-8-4.5-8-9V6zM12 9v4M12 16h.01',
+  finca: 'M3 20h18M5 20v-8l5-4 5 4v8M15 20v-5h4v5M9 20v-4h2v4M17 6a2 2 0 1 0 0 .01',
+  empresa: 'M4 21V5h10v16M14 9h6v12M7 8h4M7 12h4M7 16h4M17 13h1M17 17h1M3 21h18',
+  llamar: 'M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1z',
+  ubicacion: 'M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11zM12 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z',
+  pago: 'M3 6h18v12H3zM3 10h18M7 15h3',
+  check: 'M5 12.5l4.5 4.5L19 7.5',
+  flecha: 'M5 12h14M13 6l6 6-6 6',
+};
+---
+
+{nombre === 'whatsapp' ? (
+  <svg class:list={['icono', clase]} viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+    <path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 2.9 2.9 0 0 0-.9 2.2 5.1 5.1 0 0 0 1.1 2.7 11.6 11.6 0 0 0 4.4 3.9c1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.4-.3z" />
+  </svg>
+) : (
+  <svg class:list={['icono', clase]} viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d={TRAZOS[nombre]} />
+  </svg>
+)}

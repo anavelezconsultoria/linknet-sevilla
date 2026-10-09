@@ -1,0 +1,78 @@
+---
+import Icono from './Icono.astro';
+import { enlaceWhatsapp } from '../data/negocio';
+---
+
+<a class="flotante" href={enlaceWhatsapp('Hola LinkNet, quiero más información.')} target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
+  <span class="pulso" aria-hidden="true"></span>
+  <Icono nombre="whatsapp" />
+  <span class="texto">¿Hablamos?</span>
+</a>
+
+<style>
+  .flotante {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 60;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px;
+    border-radius: 999px;
+    color: #fff;
+    background: #1faa53;
+    box-shadow: 0 16px 34px -10px rgba(31, 170, 83, 0.75);
+    text-decoration: none;
+    font-weight: 700;
+    animation: llegar 700ms var(--salida) 1.2s both;
+    transition: transform 300ms var(--salida);
+  }
+
+  .flotante:hover {
+    transform: scale(1.06);
+  }
+
+  .flotante :global(.icono) {
+    position: relative;
+    width: 30px;
+    height: 30px;
+  }
+
+  .texto {
+    position: relative;
+    padding-right: 6px;
+  }
+
+  .pulso {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: #1faa53;
+    animation: pulso 2.4s ease-out infinite;
+  }
+
+  @keyframes pulso {
+    from {
+      transform: scale(1);
+      opacity: 0.6;
+    }
+    to {
+      transform: scale(1.5);
+      opacity: 0;
+    }
+  }
+
+  @keyframes llegar {
+    from {
+      opacity: 0;
+      transform: translateY(40px) scale(0.8);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .texto {
+      display: none;
+    }
+  }
+</style>

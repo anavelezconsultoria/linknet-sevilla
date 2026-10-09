@@ -1,0 +1,192 @@
+---
+import Icono from './Icono.astro';
+import { enlaceWhatsapp, planes } from '../data/negocio';
+---
+
+<section class="seccion planes" id="planes">
+  <div class="contenedor">
+    <div class="cabeza" data-aparece>
+      <p class="etiqueta">Planes y paquetes</p>
+      <h2 class="titulo-seccion">Todo lo que necesitas, <em>en un solo plan</em></h2>
+      <p class="intro">Para tu hogar, tu finca o tu empresa. El valor final de la instalación depende de tu ubicación y de los equipos: escríbenos y te cotizamos sin compromiso.</p>
+    </div>
+
+    <ul class="lista">
+      {planes.map((p, i) => (
+        <li class:list={['plan', { destacado: p.destacado }]} style={`--i: ${i}`} data-aparece>
+          {p.destacado && <span class="sello">Mensualidad</span>}
+          <span class="icono-plan"><Icono nombre={p.icono} /></span>
+          <h3>{p.nombre}</h3>
+          <p class="precio">{p.precio}<small>{p.detallePrecio}</small></p>
+          <ul class="incluye">
+            {p.incluye.map((item) => <li><Icono nombre="check" />{item}</li>)}
+          </ul>
+          <a
+            class:list={['boton', p.destacado ? 'boton-marca' : 'boton-contorno']}
+            href={enlaceWhatsapp(`Hola LinkNet, me interesa el plan ${p.nombre}.`)}
+            target="_blank"
+            rel="noopener"
+          >
+            Lo quiero
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .planes {
+    background: linear-gradient(180deg, var(--fondo), #fff4e6 50%, var(--fondo));
+  }
+
+  .lista {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+    margin: 56px 0 0;
+    padding: 0;
+    list-style: none;
+    align-items: stretch;
+  }
+
+  .plan {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 34px 28px 28px;
+    border-radius: var(--radio);
+    background: #fff;
+    border: 1px solid var(--linea);
+    box-shadow: var(--sombra);
+    transition: transform 400ms var(--salida), box-shadow 400ms;
+  }
+
+  .plan:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--sombra-fuerte);
+  }
+
+  /* El plan mensual va en azul noche con borde de degradado animado. */
+  .destacado {
+    color: #fff;
+    background: linear-gradient(var(--noche), var(--noche)) padding-box, var(--degradado-marca) border-box;
+    border: 2px solid transparent;
+  }
+
+  .sello {
+    position: absolute;
+    top: -14px;
+    left: 28px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-family: var(--fuente-marca);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #1b1200;
+    background: var(--degradado-marca);
+  }
+
+  .icono-plan {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    color: var(--naranja-fuerte);
+    background: #fff1e2;
+  }
+
+  .destacado .icono-plan {
+    color: var(--amarillo);
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .icono-plan :global(.icono) {
+    width: 26px;
+    height: 26px;
+  }
+
+  h3 {
+    font-family: var(--fuente-marca);
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+  }
+
+  .precio {
+    display: grid;
+    font-size: clamp(26px, 2.6vw, 32px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  .destacado .precio {
+    background: var(--degradado-marca);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .precio small {
+    margin-top: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--tenue);
+    -webkit-text-fill-color: var(--tenue);
+  }
+
+  .destacado .precio small {
+    -webkit-text-fill-color: #aab4cc;
+  }
+
+  .incluye {
+    display: grid;
+    gap: 10px;
+    margin: 4px 0 8px;
+    padding: 0;
+    list-style: none;
+    flex: 1;
+    align-content: start;
+    font-size: 15px;
+  }
+
+  .incluye li {
+    display: grid;
+    grid-template-columns: 20px 1fr;
+    gap: 10px;
+    align-items: start;
+  }
+
+  .incluye :global(.icono) {
+    width: 20px;
+    height: 20px;
+    color: var(--verde);
+  }
+
+  .destacado .incluye :global(.icono) {
+    color: var(--verde-claro);
+  }
+
+  .boton-contorno {
+    color: var(--tinta);
+  }
+
+  @media (max-width: 1080px) {
+    .lista {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 28px 20px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .lista {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

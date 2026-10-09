@@ -1,0 +1,205 @@
+---
+import Icono from './Icono.astro';
+import { enlaceWhatsapp, negocio } from '../data/negocio';
+
+/** Atajos: cada boton abre WhatsApp con el mensaje ya escrito. */
+const ATAJOS = [
+  { texto: 'Quiero internet', mensaje: 'Hola LinkNet, quiero internet en mi vereda.' },
+  { texto: 'Cotizar cámaras', mensaje: 'Hola LinkNet, quiero cotizar cámaras de seguridad.' },
+  { texto: 'Soporte técnico', mensaje: 'Hola LinkNet, necesito soporte técnico con mi servicio.' },
+  { texto: 'Pagar mi mensualidad', mensaje: 'Hola LinkNet, quiero pagar mi mensualidad.' },
+] as const;
+---
+
+<section class="contacto" id="contacto">
+  <div class="fondo" aria-hidden="true"><span></span><span></span></div>
+  <div class="contenedor rejilla">
+    <div data-aparece>
+      <p class="etiqueta">Contáctanos</p>
+      <h2 class="titulo-seccion">Tu conexión, <em>nuestra prioridad</em></h2>
+      <p class="intro">Escríbenos por WhatsApp o llámanos. Elige un tema y te llega el mensaje listo para enviar.</p>
+      <ul class="atajos">
+        {ATAJOS.map((a, i) => (
+          <li style={`--i: ${i}`}>
+            <a href={enlaceWhatsapp(a.mensaje)} target="_blank" rel="noopener">
+              <Icono nombre="whatsapp" />{a.texto}<Icono nombre="flecha" class="flecha" />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <ul class="telefonos">
+      {negocio.telefonos.map((t, i) => (
+        <li class="telefono" style={`--i: ${i + 1}`} data-aparece>
+          <p class="tipo">{t.etiqueta}</p>
+          <p class="numero">{t.visible}</p>
+          <div class="botones">
+            {t.whatsapp && (
+              <a class="boton boton-whatsapp" href={enlaceWhatsapp('Hola LinkNet, quiero más información.')} target="_blank" rel="noopener">
+                <Icono nombre="whatsapp" />WhatsApp
+              </a>
+            )}
+            <a class="boton boton-contorno" href={`tel:+${t.numero}`}><Icono nombre="llamar" />Llamar</a>
+          </div>
+        </li>
+      ))}
+      <li class="telefono zona" style="--i: 3" data-aparece>
+        <p class="tipo">Área de cobertura</p>
+        <p class="lugar"><Icono nombre="ubicacion" />{negocio.cobertura.join(' y ')}</p>
+        <p class="detalle">{negocio.detalleCobertura}</p>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<style>
+  .contacto {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(72px, 10vw, 128px);
+    color: #fff;
+    background: var(--noche);
+  }
+
+  .fondo span {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(110px);
+    opacity: 0.22;
+  }
+
+  .fondo span:first-child {
+    width: 460px;
+    height: 460px;
+    left: -140px;
+    top: -120px;
+    background: var(--naranja);
+  }
+
+  .fondo span:last-child {
+    width: 380px;
+    height: 380px;
+    right: -120px;
+    bottom: -140px;
+    background: var(--verde);
+  }
+
+  .rejilla {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(32px, 5vw, 64px);
+    align-items: start;
+  }
+
+  .intro {
+    color: #c9d1e3;
+  }
+
+  .atajos {
+    display: grid;
+    gap: 12px;
+    margin: 32px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .atajos a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    border-radius: 18px;
+    font-weight: 650;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    transition: background-color 250ms, transform 300ms var(--salida), border-color 250ms;
+  }
+
+  .atajos a:hover {
+    transform: translateX(6px);
+    background: rgba(31, 170, 83, 0.18);
+    border-color: rgba(31, 170, 83, 0.6);
+  }
+
+  .atajos :global(.icono) {
+    width: 22px;
+    height: 22px;
+    color: #4ade80;
+  }
+
+  .atajos :global(.flecha) {
+    margin-left: auto;
+    color: #fff;
+    opacity: 0.6;
+  }
+
+  .telefonos {
+    display: grid;
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .telefono {
+    padding: 28px;
+    border-radius: 24px;
+    background: linear-gradient(rgba(20, 38, 72, 0.9), rgba(20, 38, 72, 0.9)) padding-box, linear-gradient(135deg, rgba(242, 140, 40, 0.8), rgba(61, 170, 74, 0.6)) border-box;
+    border: 1px solid transparent;
+  }
+
+  .tipo {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--amarillo);
+  }
+
+  .numero {
+    margin-top: 8px;
+    font-size: clamp(30px, 3.6vw, 40px);
+    font-weight: 800;
+    letter-spacing: 0.01em;
+  }
+
+  .botones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 18px;
+  }
+
+  .botones .boton-contorno {
+    color: #fff;
+  }
+
+  .lugar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    font-size: 24px;
+    font-weight: 750;
+  }
+
+  .lugar :global(.icono) {
+    width: 26px;
+    height: 26px;
+    color: var(--naranja);
+  }
+
+  .detalle {
+    margin-top: 6px;
+    color: #c9d1e3;
+  }
+
+  @media (max-width: 900px) {
+    .rejilla {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.astro/
+.env
+.env.*
+# material de referencia (volante, logo original): no se publica
+referencia/
+.capturas/
+.DS_Store
+Thumbs.db

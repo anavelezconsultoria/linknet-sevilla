@@ -1,0 +1,107 @@
+---
+/** Mensaje del volante: Internet + Tecnologia = seguridad, comodidad y productividad. */
+const PIEZAS = ['Internet', 'Tecnología'] as const;
+const RESULTADOS = ['Mayor seguridad', 'Comodidad', 'Productividad'] as const;
+---
+
+<section class="franja" aria-label="Por qué LinkNet">
+  <div class="contenedor fila" data-aparece>
+    <p class="ecuacion">
+      {PIEZAS.map((p, i) => (
+        <>
+          {i > 0 && <span class="signo" aria-hidden="true">+</span>}
+          <span class="pieza">{p}</span>
+        </>
+      ))}
+      <span class="signo" aria-hidden="true">=</span>
+    </p>
+    <ul class="resultados">
+      {RESULTADOS.map((r, i) => <li style={`--i: ${i}`}>{r}</li>)}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .franja {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(48px, 7vw, 80px);
+    color: #fff;
+    background: var(--noche);
+  }
+
+  /* Luz que recorre la franja de lado a lado. */
+  .franja::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(100deg, transparent 30%, rgba(242, 140, 40, 0.22) 45%, rgba(246, 194, 30, 0.18) 55%, transparent 70%);
+    background-size: 250% 100%;
+    animation: barrer 7s ease-in-out infinite;
+  }
+
+  @keyframes barrer {
+    from {
+      background-position: 120% 0;
+    }
+    to {
+      background-position: -120% 0;
+    }
+  }
+
+  .fila {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 18px 28px;
+  }
+
+  .ecuacion {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: clamp(28px, 4vw, 46px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  .signo {
+    font-family: var(--fuente-marca);
+    color: var(--amarillo);
+  }
+
+  .resultados {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .resultados li {
+    padding: 12px 22px;
+    border-radius: 999px;
+    font-weight: 700;
+    color: #1b1200;
+    background: var(--degradado-marca);
+    animation: latir 3s ease-in-out infinite;
+    animation-delay: calc(var(--i) * 0.4s);
+  }
+
+  .resultados li:nth-child(2) {
+    background: var(--degradado-verde);
+  }
+
+  .resultados li:nth-child(3) {
+    background: linear-gradient(100deg, #7fd3e0, #d4f6fa);
+  }
+
+  @keyframes latir {
+    50% {
+      transform: translateY(-4px);
+    }
+  }
+</style>

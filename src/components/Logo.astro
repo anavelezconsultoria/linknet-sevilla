@@ -1,0 +1,149 @@
+---
+/**
+ * Logo de LinkNet redibujado en vector a partir del original: L grande
+ * naranja-amarilla con volumen, L verde y cubo celeste, girados 45 grados.
+ * Cada instancia usa ids propios para que los degradados no choquen.
+ */
+type Variante = 'horizontal' | 'apilado' | 'simbolo';
+
+interface Props {
+  readonly variante?: Variante;
+  readonly id: string;
+  readonly class?: string;
+  /** Anima las piezas (flotan con suavidad). Solo para el hero. */
+  readonly animado?: boolean;
+}
+
+const { variante = 'horizontal', id, class: clase, animado = false } = Astro.props;
+const g = (nombre: string) => `${id}-${nombre}`;
+
+/** L en coordenadas locales: esquina exterior abajo a la izquierda. */
+const L_GRANDE = 'M0 0 H44 V96 H140 V140 H0 Z';
+const L_VERDE = 'M58 36 H76.5 V76.5 H117 V95 H58 Z';
+const CUBO = 'M82 50 H100 V68 H82 Z';
+const GIRO = 'rotate(30 70 70)';
+---
+
+<span class:list={['logo', `logo-${variante}`, { animado }, clase]} role="img" aria-label="LinkNet, conexión digital">
+  <svg class="simbolo" viewBox="-36 -32 212 222" aria-hidden="true">
+    <defs>
+      <linearGradient id={g('naranja')} gradientUnits="userSpaceOnUse" x1="0" y1="140" x2="140" y2="0">
+        <stop offset="0" stop-color="#e8432b" />
+        <stop offset=".55" stop-color="#f28c28" />
+        <stop offset="1" stop-color="#f6d421" />
+      </linearGradient>
+      <linearGradient id={g('naranja-borde')} gradientUnits="userSpaceOnUse" x1="0" y1="140" x2="140" y2="0">
+        <stop offset="0" stop-color="#b8321c" />
+        <stop offset="1" stop-color="#c99a10" />
+      </linearGradient>
+      <linearGradient id={g('verde')} gradientUnits="userSpaceOnUse" x1="58" y1="95" x2="117" y2="36">
+        <stop offset="0" stop-color="#2e9d3b" />
+        <stop offset="1" stop-color="#a6dc4a" />
+      </linearGradient>
+      <linearGradient id={g('cubo')} gradientUnits="userSpaceOnUse" x1="82" y1="68" x2="100" y2="50">
+        <stop offset="0" stop-color="#7fd3e0" />
+        <stop offset="1" stop-color="#d4f6fa" />
+      </linearGradient>
+    </defs>
+
+    <!-- Volumen: la misma figura, mas oscura y desplazada hacia abajo. -->
+    <g class="pieza pieza-grande">
+      <g transform="translate(0 10)"><path transform={GIRO} d={L_GRANDE} fill={`url(#${g('naranja-borde')})`} /></g>
+      <path transform={GIRO} d={L_GRANDE} fill={`url(#${g('naranja')})`} />
+    </g>
+    <g class="pieza pieza-verde">
+      <g transform="translate(0 6)"><path transform={GIRO} d={L_VERDE} fill="#1d7a2b" /></g>
+      <path transform={GIRO} d={L_VERDE} fill={`url(#${g('verde')})`} />
+    </g>
+    <g class="pieza pieza-cubo">
+      <g transform="translate(0 5)"><path transform={GIRO} d={CUBO} fill="#4aa9b8" /></g>
+      <path transform={GIRO} d={CUBO} fill={`url(#${g('cubo')})`} />
+    </g>
+  </svg>
+  {variante !== 'simbolo' && (
+    <span class="palabra" aria-hidden="true">
+      <span class="nombre">LINK<span class="espacio"> </span>NET</span>
+      <span class="lema">conexión digital</span>
+    </span>
+  )}
+</span>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55em;
+    line-height: 1;
+  }
+
+  .logo-apilado {
+    flex-direction: column;
+    gap: 0.35em;
+  }
+
+  .simbolo {
+    width: 2.4em;
+    height: auto;
+    flex: none;
+    overflow: visible;
+  }
+
+  .logo-apilado .simbolo {
+    width: 5em;
+  }
+
+  .palabra {
+    display: grid;
+    gap: 0.28em;
+  }
+
+  .logo-apilado .palabra {
+    justify-items: center;
+  }
+
+  .nombre {
+    font-family: var(--fuente-marca);
+    font-weight: 800;
+    font-size: 1em;
+    letter-spacing: 0.08em;
+    background: linear-gradient(90deg, #f07a24, #f6c21e);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .lema {
+    font-family: var(--fuente-marca);
+    font-weight: 500;
+    font-size: 0.42em;
+    letter-spacing: 0.12em;
+    color: #f28c28;
+  }
+
+  /* Hero: las piezas flotan desfasadas, como si se estuvieran conectando. */
+  .animado .pieza {
+    animation: flotar 6s ease-in-out infinite;
+  }
+
+  .animado .pieza-verde {
+    animation-delay: -2s;
+    animation-duration: 5s;
+  }
+
+  .animado .pieza-cubo {
+    animation-delay: -1s;
+    animation-duration: 4s;
+  }
+
+  @keyframes flotar {
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animado .pieza {
+      animation: none;
+    }
+  }
+</style>

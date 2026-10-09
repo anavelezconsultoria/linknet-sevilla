@@ -1,0 +1,227 @@
+---
+import Logo from './Logo.astro';
+import Icono from './Icono.astro';
+import { enlaceWhatsapp } from '../data/negocio';
+
+const ENLACES = [
+  { texto: 'Servicios', href: '#servicios' },
+  { texto: 'Planes', href: '#planes' },
+  { texto: 'Adicionales', href: '#adicionales' },
+  { texto: 'Cobertura', href: '#cobertura' },
+  { texto: 'Pagos', href: '#pagos' },
+  { texto: 'Contacto', href: '#contacto' },
+] as const;
+
+const whatsapp = enlaceWhatsapp('Hola LinkNet, quiero más información.');
+---
+
+<header class="cabecera" data-cabecera>
+  <div class="contenedor barra">
+    <a href="#inicio" class="marca" aria-label="LinkNet, ir al inicio">
+      <Logo id="logo-cabecera" />
+    </a>
+
+    <nav class="nav" aria-label="Principal">
+      <ul>
+        {ENLACES.map((e) => <li><a href={e.href}>{e.texto}</a></li>)}
+      </ul>
+    </nav>
+
+    <a class="boton boton-whatsapp cta" href={whatsapp} target="_blank" rel="noopener">
+      <Icono nombre="whatsapp" />Escríbenos
+    </a>
+
+    <details class="menu-movil" data-menu>
+      <summary aria-label="Abrir menú"><span class="hamburguesa" aria-hidden="true"><i></i><i></i><i></i></span></summary>
+      <nav class="hoja" aria-label="Principal en celular">
+        <ul>
+          {ENLACES.map((e, i) => <li style={`--i: ${i}`}><a href={e.href}>{e.texto}</a></li>)}
+        </ul>
+        <a class="boton boton-whatsapp" href={whatsapp} target="_blank" rel="noopener"><Icono nombre="whatsapp" />Escríbenos por WhatsApp</a>
+      </nav>
+    </details>
+  </div>
+</header>
+
+<style>
+  .cabecera {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(255, 255, 255, 0.86);
+    backdrop-filter: saturate(160%) blur(12px);
+    border-bottom: 1px solid transparent;
+    transition: box-shadow 300ms, border-color 300ms;
+  }
+
+  .cabecera:global(.con-scroll) {
+    border-bottom-color: var(--linea);
+    box-shadow: 0 10px 30px -20px rgba(13, 26, 51, 0.35);
+  }
+
+  .barra {
+    height: var(--alto-cabecera);
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+
+  .marca {
+    margin-right: auto;
+    text-decoration: none;
+    font-size: 22px;
+    transition: transform 300ms var(--salida);
+  }
+
+  .marca:hover {
+    transform: scale(1.03);
+  }
+
+  .nav ul {
+    display: flex;
+    gap: 4px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav a {
+    position: relative;
+    display: block;
+    padding: 8px 12px;
+    font-size: 15px;
+    font-weight: 550;
+    color: var(--tenue);
+    text-decoration: none;
+    transition: color 200ms;
+  }
+
+  .nav a::after {
+    content: '';
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 2px;
+    height: 3px;
+    border-radius: 3px;
+    background: var(--degradado-marca);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 300ms var(--salida);
+  }
+
+  .nav a:hover {
+    color: var(--tinta);
+  }
+
+  .nav a:hover::after {
+    transform: scaleX(1);
+  }
+
+  .cta {
+    padding: 12px 20px;
+    font-size: 15px;
+  }
+
+  .menu-movil {
+    display: none;
+  }
+
+  @media (max-width: 600px) {
+    .marca {
+      font-size: 18px;
+    }
+  }
+
+  @media (max-width: 1020px) {
+    .nav,
+    .cta {
+      display: none;
+    }
+
+    .menu-movil {
+      display: block;
+    }
+
+    summary {
+      list-style: none;
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: var(--noche);
+      cursor: pointer;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .hamburguesa {
+      display: grid;
+      gap: 5px;
+      width: 20px;
+    }
+
+    .hamburguesa i {
+      display: block;
+      height: 2px;
+      border-radius: 2px;
+      background: #fff;
+      transition: transform 250ms var(--salida), opacity 200ms;
+    }
+
+    .menu-movil[open] .hamburguesa i:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .menu-movil[open] .hamburguesa i:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-movil[open] .hamburguesa i:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    .hoja {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: var(--alto-cabecera);
+      display: grid;
+      gap: 20px;
+      padding: 12px var(--margen) 28px;
+      background: #fff;
+      border-bottom: 1px solid var(--linea);
+      box-shadow: 0 30px 40px -30px rgba(13, 26, 51, 0.4);
+    }
+
+    .hoja ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .hoja li {
+      animation: entrar 400ms var(--salida) both;
+      animation-delay: calc(var(--i) * 45ms);
+    }
+
+    .hoja li a {
+      display: block;
+      padding: 14px 0;
+      font-size: 20px;
+      font-weight: 650;
+      text-decoration: none;
+      border-bottom: 1px solid var(--linea);
+    }
+
+    @keyframes entrar {
+      from {
+        opacity: 0;
+        transform: translateY(-8px);
+      }
+    }
+  }
+</style>

@@ -1,0 +1,104 @@
+---
+import { Image } from 'astro:assets';
+import Logo from './Logo.astro';
+import logoAna from '../assets/ana-velez-logo.png';
+import { negocio } from '../data/negocio';
+
+const anio = new Date().getFullYear();
+---
+
+<footer class="pie">
+  <div class="contenedor fila">
+    <div class="marca">
+      <Logo id="logo-pie" />
+      <p>{negocio.promesa}.</p>
+    </div>
+    <nav aria-label="Pie de página">
+      <ul>
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#planes">Planes</a></li>
+        <li><a href="#cobertura">Cobertura</a></li>
+        <li><a href="#pagos">Pagos</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="contenedor legal">
+    <p>&copy; {anio} {negocio.nombre} · Internet rural · {negocio.cobertura.join(' y ')}, Valle del Cauca</p>
+    <a class="autora" href="https://anavelezconsultora.com" target="_blank" rel="noopener">
+      <span>Desarrollado por</span>
+      <Image src={logoAna} alt="Ana Vélez · Consultoría, Software y Tecnología" height={48} />
+    </a>
+  </div>
+</footer>
+
+<style>
+  .pie {
+    padding: 56px 0 120px;
+    background: #fff;
+    border-top: 1px solid var(--linea);
+    font-size: 15px;
+  }
+
+  .fila {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 32px;
+  }
+
+  .marca {
+    display: grid;
+    gap: 14px;
+    font-size: 22px;
+  }
+
+  .marca p {
+    font-size: 15px;
+    color: var(--tenue);
+  }
+
+  nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 22px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  nav a {
+    color: var(--tenue);
+    text-decoration: none;
+  }
+
+  nav a:hover {
+    color: var(--naranja-fuerte);
+  }
+
+  .legal {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid var(--linea);
+    color: var(--tenue);
+    font-size: 14px;
+  }
+
+  .autora {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--tenue);
+  }
+
+  .autora img {
+    height: 48px;
+    width: auto;
+  }
+</style>

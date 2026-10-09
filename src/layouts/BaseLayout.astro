@@ -1,0 +1,59 @@
+---
+import '../styles/global.css';
+import { negocio } from '../data/negocio';
+
+interface Props {
+  readonly titulo?: string;
+  readonly descripcion?: string;
+}
+
+const {
+  titulo = 'LinkNet | Internet rural, cámaras y vigilancia en Sevilla y Caicedonia',
+  descripcion = 'Internet banda ancha ilimitado, instalación y alquiler de cámaras y servicio de vigilancia para casas, fincas y negocios en las veredas de Sevilla y Caicedonia, Valle del Cauca.',
+} = Astro.props;
+
+const canonico = new URL(Astro.url.pathname, Astro.site);
+const imagen = new URL('/og-image.png', Astro.site);
+const principal = negocio.telefonos[0];
+
+/** Datos estructurados de negocio local para buscadores. */
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: negocio.nombre,
+  description: descripcion,
+  url: canonico.origin,
+  image: imagen.href,
+  telephone: principal ? `+${principal.numero}` : undefined,
+  areaServed: negocio.cobertura.map((municipio) => ({ '@type': 'City', name: `${municipio}, Valle del Cauca` })),
+  address: { '@type': 'PostalAddress', addressLocality: 'Sevilla', addressRegion: 'Valle del Cauca', addressCountry: 'CO' },
+};
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titulo}</title>
+    <meta name="description" content={descripcion} />
+    <link rel="canonical" href={canonico} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#0d1a33" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_CO" />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={descripcion} />
+    <meta property="og:url" content={canonico} />
+    <meta property="og:image" content={imagen} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <script is:inline>document.documentElement.classList.add('js');</script>
+  </head>
+  <body>
+    <slot />
+    <script>
+      import '../scripts/interacciones';
+    </script>
+  </body>
+</html>

@@ -1,0 +1,174 @@
+---
+import Icono from './Icono.astro';
+import { enlaceWhatsapp, negocio } from '../data/negocio';
+
+/** Mapa de OpenStreetMap entre Sevilla y Caicedonia: gratis y sin clave de API. */
+const MAPA = 'https://www.openstreetmap.org/export/embed.html?bbox=-76.05%2C4.18%2C-75.74%2C4.40&layer=mapnik';
+const MAPA_GRANDE = 'https://www.openstreetmap.org/#map=12/4.29/-75.89';
+---
+
+<section class="seccion" id="cobertura">
+  <div class="contenedor rejilla">
+    <div class="texto" data-aparece>
+      <p class="etiqueta">Cobertura</p>
+      <h2 class="titulo-seccion">Llegamos a <em>{negocio.cobertura.join(' y ')}</em></h2>
+      <p class="intro">{negocio.detalleCobertura}. Conectamos casas, fincas y negocios en la zona rural.</p>
+      <ul class="municipios">
+        {negocio.cobertura.map((m) => <li><Icono nombre="ubicacion" />{m}, Valle del Cauca</li>)}
+      </ul>
+      <a class="boton boton-whatsapp" href={enlaceWhatsapp('Hola LinkNet, ¿tienen cobertura en mi vereda? Estoy en: ')} target="_blank" rel="noopener">
+        <Icono nombre="whatsapp" />¿Llegan a mi vereda?
+      </a>
+    </div>
+
+    <figure class="mapa" data-aparece style="--i: 1">
+      <iframe title="Mapa de cobertura: Sevilla y Caicedonia" src={MAPA} loading="lazy"></iframe>
+      <figcaption><a href={MAPA_GRANDE} target="_blank" rel="noopener">Ver mapa más grande</a></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="pagos" id="pagos">
+  <div class="contenedor tarjeta" data-aparece>
+    <div>
+      <p class="etiqueta">Pagos fáciles</p>
+      <h2>Paga tu mensualidad desde el celular</h2>
+      <p class="intro">Paga con Nequi, Daviplata u otros medios. Escríbenos por WhatsApp y te indicamos cómo hacerlo.</p>
+    </div>
+    <ul class="medios">
+      {negocio.mediosPago.map((m, i) => <li style={`--i: ${i}`}><Icono nombre="pago" />{m}</li>)}
+    </ul>
+    <a class="boton boton-marca" href={enlaceWhatsapp('Hola LinkNet, quiero pagar mi mensualidad. ¿Me envían los datos de pago?')} target="_blank" rel="noopener">
+      <Icono nombre="whatsapp" />Pagar mi mensualidad
+    </a>
+  </div>
+</section>
+
+<style>
+  .rejilla {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(32px, 5vw, 64px);
+    align-items: center;
+  }
+
+  .municipios {
+    display: grid;
+    gap: 12px;
+    margin: 28px 0 32px;
+    padding: 0;
+    list-style: none;
+    font-size: 18px;
+    font-weight: 650;
+  }
+
+  .municipios li {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .municipios :global(.icono) {
+    width: 26px;
+    height: 26px;
+    color: var(--naranja-fuerte);
+  }
+
+  .mapa {
+    margin: 0;
+    border-radius: 28px;
+    overflow: hidden;
+    border: 6px solid #fff;
+    box-shadow: var(--sombra-fuerte);
+    background: #e9ecf2;
+  }
+
+  .mapa iframe {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border: 0;
+  }
+
+  .mapa figcaption {
+    padding: 10px 16px;
+    font-size: 14px;
+    text-align: right;
+    background: #fff;
+  }
+
+  .mapa figcaption a {
+    color: var(--tenue);
+  }
+
+  .pagos {
+    padding-bottom: clamp(72px, 10vw, 128px);
+  }
+
+  .tarjeta {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) auto auto;
+    gap: 32px;
+    align-items: center;
+    padding: clamp(28px, 4vw, 48px);
+    border-radius: 32px;
+    background: radial-gradient(circle at 100% 0%, #fff1d6, transparent 55%), #fff;
+    border: 1px solid var(--linea);
+    box-shadow: var(--sombra);
+  }
+
+  .tarjeta h2 {
+    margin-top: 12px;
+    font-size: clamp(26px, 3vw, 36px);
+  }
+
+  .tarjeta .intro {
+    font-size: 17px;
+    margin-top: 12px;
+  }
+
+  .medios {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .medios li {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-weight: 700;
+    background: var(--fondo);
+    border: 1px solid var(--linea);
+  }
+
+  .medios :global(.icono) {
+    width: 20px;
+    height: 20px;
+    color: var(--verde);
+  }
+
+  @media (max-width: 900px) {
+    .rejilla,
+    .tarjeta {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .medios {
+      grid-template-columns: repeat(3, auto);
+      justify-content: start;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .medios {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .tarjeta .boton {
+      width: 100%;
+    }
+  }
+</style>

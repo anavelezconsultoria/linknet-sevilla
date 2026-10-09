@@ -1,0 +1,229 @@
+@import '@fontsource-variable/outfit';
+@import '@fontsource/orbitron/500.css';
+@import '@fontsource/orbitron/800.css';
+
+/*
+ * Sistema de diseno LinkNet: los colores salen del logo (L naranja-amarilla,
+ * L verde, cubo celeste) sobre el azul noche del volante.
+ */
+:root {
+  --naranja: #f28c28;
+  --naranja-fuerte: #e8432b;
+  --amarillo: #f6c21e;
+  --verde: #3daa4a;
+  --verde-claro: #a6dc4a;
+  --celeste: #7fd3e0;
+  --noche: #0d1a33;
+  --noche-2: #142648;
+  --tinta: #14213d;
+  --tenue: #5b6478;
+  --linea: #e7e9ef;
+  --fondo: #fafbfc;
+  --blanco: #ffffff;
+
+  --degradado-marca: linear-gradient(100deg, var(--naranja-fuerte), var(--naranja) 45%, var(--amarillo));
+  --degradado-verde: linear-gradient(100deg, #2e9d3b, var(--verde-claro));
+
+  --fuente-marca: 'Orbitron', system-ui, sans-serif;
+  --fuente: 'Outfit Variable', 'Outfit', system-ui, sans-serif;
+
+  --radio: 22px;
+  --radio-pildora: 999px;
+  --sombra: 0 18px 40px -18px rgba(13, 26, 51, 0.25);
+  --sombra-fuerte: 0 30px 60px -24px rgba(13, 26, 51, 0.45);
+  --salida: cubic-bezier(0.22, 1, 0.36, 1);
+  --contenedor: 1200px;
+  --margen: clamp(18px, 4vw, 40px);
+  --alto-cabecera: 76px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--alto-cabecera) + 12px);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--fuente);
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--tinta);
+  background: var(--fondo);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-weight: 750;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+.contenedor {
+  width: min(100% - 2 * var(--margen), var(--contenedor));
+  margin-inline: auto;
+}
+
+.seccion {
+  padding-block: clamp(72px, 10vw, 128px);
+}
+
+.etiqueta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--fuente-marca);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--naranja);
+}
+
+.etiqueta::before {
+  content: '';
+  width: 28px;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--degradado-marca);
+}
+
+.titulo-seccion {
+  font-size: clamp(32px, 4.6vw, 54px);
+  margin-top: 14px;
+  max-width: 760px;
+}
+
+.titulo-seccion em {
+  font-style: normal;
+  background: var(--degradado-marca);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.intro {
+  margin-top: 18px;
+  max-width: 640px;
+  font-size: 19px;
+  color: var(--tenue);
+}
+
+main {
+  overflow-x: clip;
+}
+
+.visualmente-oculto {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Botones */
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px 26px;
+  border-radius: var(--radio-pildora);
+  border: 0;
+  font: 650 16px/1.2 var(--fuente);
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 220ms var(--salida), box-shadow 220ms, background-color 220ms;
+  white-space: nowrap;
+}
+
+.boton:hover {
+  transform: translateY(-2px);
+}
+
+.boton:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.boton svg {
+  width: 20px;
+  height: 20px;
+  flex: none;
+}
+
+.boton-marca {
+  color: #1b1200;
+  background: var(--degradado-marca);
+  box-shadow: 0 14px 30px -12px rgba(242, 140, 40, 0.75);
+}
+
+.boton-whatsapp {
+  color: #fff;
+  background: #1faa53;
+  box-shadow: 0 14px 30px -12px rgba(31, 170, 83, 0.7);
+}
+
+.boton-whatsapp:hover {
+  background: #17924a;
+}
+
+.boton-contorno {
+  color: inherit;
+  background: transparent;
+  box-shadow: inset 0 0 0 2px currentColor;
+}
+
+/* Aparicion al hacer scroll (solo con JS; sin JS todo se ve). */
+.js [data-aparece] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 700ms var(--salida), transform 700ms var(--salida);
+  transition-delay: calc(var(--i, 0) * 90ms);
+}
+
+.js [data-aparece].visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .js [data-aparece] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
